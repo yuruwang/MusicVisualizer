@@ -1,0 +1,33 @@
+#title, #artist, #album {
+    position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 999;
+    font-weight: 100;
+    font-family: "Roboto", sans-serif;
+    /* font-size: 100px; */
+    color: #fff;
+    /* visibility: hidden; */
+    letter-spacing: -.05em;
+    text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+	margin-bottom: 15px;
+}
+#song_info_wrapper {
+	position: absolute;
+	width: 100%;
+    text-align: center; 
+    top: 35%;
+}
+
+#title {
+	font-size: 5em;
+}
+
+#artist {
+    font-size: 2em;
+}
+#album {
+    font-size: 2em;
+	/*font-size: 40px;*/
+	margin-bottom: 0;
+}
