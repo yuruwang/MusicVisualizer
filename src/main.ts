@@ -86,22 +86,22 @@ export function readTextFile(file: string): string
 
 function loadScene() {
   // load texture
-  tex0 = new Texture('../src/textures/texture.jpg')
+  tex0 = new Texture('./src/textures/texture.jpg')
 
   // load obj
-  ringObj = loadOBJText('../src/obj/ring.obj');
+  ringObj = loadOBJText('./src/obj/ring.obj');
   ringMesh = new Mesh(ringObj, vec3.fromValues(0, 0, 0));
   ringMesh.create();
 
-  ringObj = loadOBJText('../src/obj/ring2.obj');
+  ringObj = loadOBJText('./src/obj/ring2.obj');
   ring2Mesh = new Mesh(ringObj, vec3.fromValues(0, 0, 0));
   ring2Mesh.create();
 
-  ringObj = loadOBJText('../src/obj/ring3.obj');
+  ringObj = loadOBJText('./src/obj/ring3.obj');
   ring3Mesh = new Mesh(ringObj, vec3.fromValues(0, 0, 0));
   ring3Mesh.create();
 
-  ringObj = loadOBJText('../src/obj/ring4.obj');
+  ringObj = loadOBJText('./src/obj/ring4.obj');
   ring4Mesh = new Mesh(ringObj, vec3.fromValues(0, 0, 0));
   ring4Mesh.create();
 
