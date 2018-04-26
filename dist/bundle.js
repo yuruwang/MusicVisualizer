@@ -3511,18 +3511,18 @@ function readTextFile(file) {
 }
 function loadScene() {
     // load texture
-    tex0 = new __WEBPACK_IMPORTED_MODULE_12__rendering_gl_Texture__["a" /* default */]('../src/textures/texture.jpg');
+    tex0 = new __WEBPACK_IMPORTED_MODULE_12__rendering_gl_Texture__["a" /* default */]('./src/textures/texture.jpg');
     // load obj
-    ringObj = loadOBJText('../src/obj/ring.obj');
+    ringObj = loadOBJText('./src/obj/ring.obj');
     ringMesh = new __WEBPACK_IMPORTED_MODULE_11__geometry_Mesh__["a" /* default */](ringObj, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["d" /* vec3 */].fromValues(0, 0, 0));
     ringMesh.create();
-    ringObj = loadOBJText('../src/obj/ring2.obj');
+    ringObj = loadOBJText('./src/obj/ring2.obj');
     ring2Mesh = new __WEBPACK_IMPORTED_MODULE_11__geometry_Mesh__["a" /* default */](ringObj, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["d" /* vec3 */].fromValues(0, 0, 0));
     ring2Mesh.create();
-    ringObj = loadOBJText('../src/obj/ring3.obj');
+    ringObj = loadOBJText('./src/obj/ring3.obj');
     ring3Mesh = new __WEBPACK_IMPORTED_MODULE_11__geometry_Mesh__["a" /* default */](ringObj, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["d" /* vec3 */].fromValues(0, 0, 0));
     ring3Mesh.create();
-    ringObj = loadOBJText('../src/obj/ring4.obj');
+    ringObj = loadOBJText('./src/obj/ring4.obj');
     ring4Mesh = new __WEBPACK_IMPORTED_MODULE_11__geometry_Mesh__["a" /* default */](ringObj, __WEBPACK_IMPORTED_MODULE_0_gl_matrix__["d" /* vec3 */].fromValues(0, 0, 0));
     ring4Mesh.create();
     // creat square drawable
