@@ -3,6 +3,7 @@
 uniform mat4 u_ViewProj;
 uniform float u_Time;
 uniform float u_TotalBins;
+uniform float u_Sign;
 
 uniform mat3 u_CameraAxes; // Used for rendering particles as billboards (quads that are always looking at the camera)
 // gl_Position = center + vs_Pos.x * camRight + vs_Pos.y * camUp;
@@ -50,14 +51,16 @@ mat4 translateMatrix(float tx, float ty, float tz) {
 
 void main()
 {
+    fs_time = u_Time;
     fs_InstanceIdx = vs_InstanceIdx;
     fs_TotalBins = u_TotalBins;
 
     float portion = vs_InstanceIdx / u_TotalBins;
     float rad = portion * PI;
-    mat4 transformM = rotationMatrix(vec3(0.0, 0.0, 1.0), rad) * 
-                    translateMatrix(0.0, 0.25 + vs_Translate, 0.0) * 
-                    scaleMatrix(0.005, 0.2 * vs_ScaleFactor, 1.0);
+    mat4 transformM =rotationMatrix(vec3(0.0, 1.0, 0.0), rad) * 
+                    translateMatrix(0.0, 0.0, -1.0) * 
+                    scaleMatrix(0.02, 0.3 * vs_ScaleFactor * u_Sign, 1.0);
+
     vec4 pos = transformM * vs_Pos;
 
     fs_Col = vs_Col;

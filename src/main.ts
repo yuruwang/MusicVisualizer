@@ -24,8 +24,6 @@ var audio = new THREE.Audio( listener );
 let n: number;
 var analyser: any;
 var freqData : any;
-var analyser2: any;
-var freqData2 : any;
 
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
@@ -143,7 +141,7 @@ const controls = {
   song: ['Infinite.mp3', 'Rafrain.mp3', '静寂之空.mp3', 'あなたに出会わなければ~夏雪冬花~.mp3'],
 };
 
-var selectedSong = "Rafrain.mp3";
+var selectedSong = "あなたに出会わなければ~夏雪冬花~.mp3";
 
 // let n = 10
 
@@ -162,10 +160,6 @@ function loadAudio(filename: String) {
   // console.log("audio: ", audio);
   analyser = new THREE.AudioAnalyser( audio, fftSize );
   freqData = analyser.getFrequencyData();  //--> an uint8array
-
-  // for particles
-  analyser2 = new THREE.AudioAnalyser( audio, fftSize2 );
-  freqData2 = analyser2.getFrequencyData();  //--> an uint8array
 
   n = freqData.length;
 }
@@ -278,8 +272,6 @@ function updateParticels(deltaT: number) {
 
       offsetsArray.push(particle.pos[0]);
       offsetsArray.push(particle.pos[1] + offsetY);
-      // offsetsArray.push(0.005 * (time % 20));
-      // offsetsArray.push(particle.pos[1]);
       offsetsArray.push(particle.pos[2]);
 
       colorsArray.push(particle.col[0]);
@@ -361,6 +353,11 @@ function main() {
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/bottomRing-frag.glsl')),
   ]);
 
+  const middleRingShader = new ShaderProgram([
+    new Shader(gl.VERTEX_SHADER, require('./shaders/middleRing-vert.glsl')),
+    new Shader(gl.FRAGMENT_SHADER, require('./shaders/middleRing-frag.glsl')),
+  ]);
+
   const ringShader = new ShaderProgram([
     new Shader(gl.VERTEX_SHADER, require('./shaders/ring-vert.glsl')),
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/ring-frag.glsl')),
@@ -381,12 +378,15 @@ function main() {
     new Shader(gl.FRAGMENT_SHADER, require('./shaders/cloud-frag.glsl')),
   ]);
 
+
+
   cloudShader.setupTexUnits(["tex_Color"]);
 
 
   flatShader.setTotalBins(n * 2);
   ringShader.setTotalBins(n * 2);
   bottomRingShader.setTotalBins(n * 2);
+  middleRingShader.setTotalBins(n);
 
 
 
@@ -394,13 +394,16 @@ function main() {
   function tick() {
     let averageF = analyser.getAverageFrequency();
     stats.begin();
+
     customShader.setTime(time++);
     flatShader.setTime(time++);
     bottomRingShader.setTime(time++);
+    middleRingShader.setTime(time++);
     ringShader.setTime(time++);
     skyShader.setTime(time++);
     lambertShader.setTime(time++);
     cloudShader.setTime(time++);
+
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
 
@@ -417,6 +420,21 @@ function main() {
 
     renderer.render(camera, bottomRingShader, [
       square, square2
+    ]);
+
+
+    // middleRingShader.bindTexToUnit("tex_Color", tex0, 0);
+    middleRingShader.setDimension(vec2.fromValues(canvas.width, canvas.height));
+    middleRingShader.setFreq(freqData[30]);
+
+    middleRingShader.setSign(1.0);
+    renderer.render(camera, middleRingShader, [
+      square
+    ]);
+
+    middleRingShader.setSign(-1.0);
+    renderer.render(camera, middleRingShader, [
+      square
     ]);
 
     renderer.render(camera2, customShader, [
@@ -460,16 +478,10 @@ function main() {
     ]);
 
 
-    // skyShader.setDimension(vec2.fromValues(canvas.width, canvas.height));
-    // renderer.render(camera, skyShader, [
-    //   screenQuad
-    // ]);
-
     // for cloud
     if (averageF > 0) {
       cloudShader.setDimension(vec2.fromValues(canvas.width, canvas.height));
       cloudShader.setFreq(freqData[30]);
-      cloudShader.bindTexToUnit("tex_Color", tex0, 0);
       renderer.render(camera, cloudShader, [
         screenQuad
       ]);

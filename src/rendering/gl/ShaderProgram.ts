@@ -41,6 +41,7 @@ class ShaderProgram {
   unifTotalBins: WebGLUniformLocation;
   unifRad: WebGLUniformLocation;
   unifFreq: WebGLUniformLocation;
+  unifSign: WebGLUniformLocation;
 
   unifTexUnits: Map<string, WebGLUniformLocation>;
 
@@ -72,7 +73,8 @@ class ShaderProgram {
     this.unifTotalBins   = gl.getUniformLocation(this.prog, "u_TotalBins");
     this.unifRad   = gl.getUniformLocation(this.prog, "u_Rad");
     this.unifFreq   = gl.getUniformLocation(this.prog, "u_Freq");
- 
+    this.unifSign   = gl.getUniformLocation(this.prog, "u_Sign");
+
     this.unifTexUnits = new Map<string, WebGLUniformLocation>();
   }
 
@@ -175,6 +177,15 @@ class ShaderProgram {
     if(this.unifFreq != -1)
     {
       gl.uniform1f(this.unifFreq, freq);
+    }
+  }
+
+  setSign(sign: number) {
+    this.use();
+
+    if(this.unifSign != -1)
+    {
+      gl.uniform1f(this.unifSign, sign);
     }
   }
 
