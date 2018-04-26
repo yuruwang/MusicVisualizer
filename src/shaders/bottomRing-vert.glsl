@@ -15,6 +15,8 @@ in float vs_ScaleFactor; // an instance rendering attibute representing the bin 
 
 out vec4 fs_Col;
 out vec4 fs_Pos;
+out float fs_InstanceIdx;
+out float fs_TotalBins;
 
 out float fs_time;
 
@@ -48,12 +50,17 @@ mat4 translateMatrix(float tx, float ty, float tz) {
 
 void main()
 {
+    fs_InstanceIdx = vs_InstanceIdx;
+    fs_TotalBins = u_TotalBins;
+
     float portion = vs_InstanceIdx / u_TotalBins;
     float rad = portion * PI;
-    // mat4 transformM = rotationMatrix(vec3(0.0, 0.0, 1.0), rad * u_Time * 0.001) * translateMatrix(0.0, 0.4 + vs_Translate, 0.0) * scaleMatrix(0.005, 0.2 * vs_ScaleFactor, 1.0);
-    mat4 transformM = rotationMatrix(vec3(0.0, 0.0, 1.0), rad * u_Time * 0.002) * 
-                    translateMatrix(0.0, 0.4 + vs_Translate, 0.0) * 
-                    scaleMatrix(0.005, 0.2 * vs_ScaleFactor, 1.0);
+    mat4 transformM = translateMatrix(0.0, 0.5, 0.3) * 
+                    rotationMatrix(vec3(1.0, 0.0, 0.0), PI / 2.0) * 
+                    rotationMatrix(vec3(0.0, 0.0, 1.0), rad) * 
+                    translateMatrix(0.0, 0.7, 0.0) * 
+                    scaleMatrix(0.005, 0.3 * vs_ScaleFactor, 1.0);
+    // mat4 transformM =  translateMatrix(0.0, 0.25, 0.0)*rotationMatrix(vec3(0.0, 0.0, 1.0), rad) * translateMatrix(0.0, 0.25 + vs_Translate, 0.0) * scaleMatrix(0.005, 0.2 * vs_ScaleFactor, 1.0);
     vec4 pos = transformM * vs_Pos;
 
     fs_Col = vs_Col;

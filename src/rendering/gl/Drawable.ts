@@ -5,15 +5,19 @@ abstract class Drawable {
 
   bufIdx: WebGLBuffer;
   bufPos: WebGLBuffer;
+  bufNor: WebGLBuffer;
   bufTranslate: WebGLBuffer;
+  bufParticleTranslate: WebGLBuffer;
   bufCol: WebGLBuffer;
   bufInstanceIdx: WebGLBuffer;
   bufScaleFactor: WebGLBuffer;
 
   idxGenerated: boolean = false;
   posGenerated: boolean = false;
+  norGenerated: boolean = false;
   colGenerated: boolean = false;
   translateGenerated: boolean = false;
+  particleTranslateGenerated: boolean = false;
   instanceIdxGenerated: boolean = false;
   scaleFactorGenerated: boolean = false;
 
@@ -24,8 +28,10 @@ abstract class Drawable {
   destory() {
     gl.deleteBuffer(this.bufIdx);
     gl.deleteBuffer(this.bufPos);
+    gl.deleteBuffer(this.bufNor);
     gl.deleteBuffer(this.bufCol);
     gl.deleteBuffer(this.bufTranslate);
+    gl.deleteBuffer(this.bufParticleTranslate);
     gl.deleteBuffer(this.bufInstanceIdx);
     gl.deleteBuffer(this.bufScaleFactor);
   }
@@ -40,6 +46,11 @@ abstract class Drawable {
     this.bufPos = gl.createBuffer();
   }
 
+  generateNor() {
+    this.norGenerated = true;
+    this.bufNor = gl.createBuffer();
+  }
+
   generateCol() {
     this.colGenerated = true;
     this.bufCol = gl.createBuffer();
@@ -48,6 +59,11 @@ abstract class Drawable {
   generateTranslate() {
     this.translateGenerated = true;
     this.bufTranslate = gl.createBuffer();
+  }
+
+  generateParticleTranslate() {
+    this.particleTranslateGenerated = true;
+    this.bufParticleTranslate = gl.createBuffer();
   }
 
   generateInstanceIdx() {
@@ -74,6 +90,13 @@ abstract class Drawable {
     return this.posGenerated;
   }
 
+  bindNor(): boolean {
+    if (this.norGenerated) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.bufNor);
+    }
+    return this.norGenerated;
+  }
+
   bindCol(): boolean {
     if (this.colGenerated) {
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufCol);
@@ -86,6 +109,13 @@ abstract class Drawable {
       gl.bindBuffer(gl.ARRAY_BUFFER, this.bufTranslate);
     }
     return this.translateGenerated;
+  }
+
+  bindParticleTranslate(): boolean {
+    if (this.particleTranslateGenerated) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.bufParticleTranslate);
+    }
+    return this.particleTranslateGenerated;
   }
 
   bindInstanceIdx(): boolean {
