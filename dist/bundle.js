@@ -3549,7 +3549,8 @@ function loadScene() {
 const controls = {
     song: ['Infinite.mp3', 'Rafrain.mp3', '静寂之空.mp3', 'あなたに出会わなければ~夏雪冬花~.mp3'],
 };
-var selectedSong = "あなたに出会わなければ~夏雪冬花~.mp3";
+// var selectedSong = "あなたに出会わなければ~夏雪冬花~.mp3";
+var selectedSong = "Rafrain.mp3";
 // let n = 10
 function loadAudio(filename) {
     if (audio.isPlaying) {
